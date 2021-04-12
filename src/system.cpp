@@ -22,6 +22,8 @@ System::System(char* input_file)
 		threadSet[i].initialThread(singleResult[0], multiResult[0], matrix[0]);
 	    /*~~~~~~~~~~~~Your code(PART1)~~~~~~~~~~~*/
         // Set up the calculate range of matrix.
+        threadSet[1].setStartCalculatePoint(0);
+        threadSet[1].setEndCalculatePoint(0);
 	    /*~~~~~~~~~~~~~~~~~~END~~~~~~~~~~~~~~~~~~*/
 #else
         // Set the singleResult, multResult, and matrix to thread.
@@ -209,6 +211,9 @@ System::globalMultiCoreMatrixMulti()
 
 	/*~~~~~~~~~~~~Your code(PART1)~~~~~~~~~~~*/
     // Create thread and join
+    pthread_t t; // 宣告 pthread 變數
+    pthread_create(&t, NULL, threadSet[1].matrixMultiplication, NULL); // 建立子執行緒
+    pthread_join(t, NULL); // 等待子執行緒執行完成
 	/*~~~~~~~~~~~~~~~~~~END~~~~~~~~~~~~~~~~~~*/
 
     setEndTime();

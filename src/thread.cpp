@@ -99,7 +99,6 @@ Thread::singleMatrixMultiplication()
 	core = sched_getcpu();
 	PID = syscall(SYS_gettid);
 	printInformation();
-
 	/* Multiplication */
 	for (int i = 0 ; i < _matrixSize; i++) {
 		for (int j = 0 ; j < _matrixSize; j++) {
@@ -149,8 +148,8 @@ Thread::matrixMultiplication(void* args)
 	/*~~~~~~~~~~~~Your code(PART1)~~~~~~~~~~~*/
     // Set up the affinity mask
 	/*~~~~~~~~~~~~~~~~~~END~~~~~~~~~~~~~~~~~~*/
-
     /* matrix multiplication */
+std::cout << "test" << obj->_matrixSize << std::endl;
 	for (int i = obj->startCalculatePoint; i < obj->endCalculatePoint; i++) {
 		for (int j = 0 ; j < obj->_matrixSize; j++) {
 			obj->multiResult[i][j] = 0;
