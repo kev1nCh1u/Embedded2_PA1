@@ -141,6 +141,14 @@ Thread::matrixMultiplication(void* args)
 {
     Thread *obj = (Thread*)args;
 
+	// std::cout << "test start " << obj->startCalculatePoint << std::endl;
+	// std::cout << "test end " << obj->endCalculatePoint << std::endl;
+	// std::cout << "test matrixSize " << obj->_matrixSize << std::endl;
+
+	obj->core = sched_getcpu();
+	obj->PID = syscall(SYS_gettid);
+	obj->printInformation();
+
 #if (PART == 3)
     obj->setUpScheduler();
 #endif
@@ -150,10 +158,6 @@ Thread::matrixMultiplication(void* args)
 	/*~~~~~~~~~~~~~~~~~~END~~~~~~~~~~~~~~~~~~*/
     /* matrix multiplication */
 
-std::cout << "test start " << obj->startCalculatePoint << std::endl;
-std::cout << "test end " << obj->endCalculatePoint << std::endl;
-std::cout << "test matrixSize " << obj->_matrixSize << std::endl;
-
 	for (int i = obj->startCalculatePoint; i < obj->endCalculatePoint; i++) {
 		for (int j = 0 ; j < obj->_matrixSize; j++) {
 			obj->multiResult[i][j] = 0;
@@ -162,9 +166,14 @@ std::cout << "test matrixSize " << obj->_matrixSize << std::endl;
             }	
 	        /*~~~~~~~~~~~~Your code(PART1)~~~~~~~~~~~*/
             // Observe the thread migration
+			int newCore = sched_getcpu();
+			if(obj->core != newCore)
+			{
+				std::cout << "The thread " << obj->_ID << " PID " << obj->PID << " is moved from CPU " << obj->core << " to " << newCore << std::endl; 
+				obj->core = newCore;
+			}
 	        /*~~~~~~~~~~~~~~~~~~END~~~~~~~~~~~~~~~~~~*/
 
-			std::cout << "test " << obj->multiResult[i][j] << std::endl;
 		}
 #if (PART == 3)
 	    /*~~~~~~~~~~~~Your code(PART3)~~~~~~~~~~~*/
