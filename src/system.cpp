@@ -250,6 +250,28 @@ System::partitionMultiCoreMatrixMulti()
 	/*~~~~~~~~~~~~Your code(PART1)~~~~~~~~~~~*/
     // Set thread execute core.
     // Create thread and join.
+    pthread_t threadArr[numThread]; // 宣告 pthread 變數
+    cpu_set_t cpuSetArr[numThread];
+
+    for(int i = 0; i < numThread; i++)
+    {
+        CPU_ZERO(&cpuSetArr[i]);
+        CPU_SET(i, &cpuSetArr[i]);
+        
+    }
+    sched_setaffinity(0, sizeof(cpuSetArr), cpuSetArr);
+
+    for(int i = 0; i < numThread; i++)
+    {
+        cpu_set_t cpuSet;
+        CPU_ZERO(&cpuSet);
+        CPU_SET(i, &cpuSet);
+        sched_setaffinity(i, sizeof(cpuSet), &cpuSet);
+
+        pthread_create(&threadArr[i], NULL, threadSet[i].matrixMultiplication, &threadSet[i]); // 建立子執行緒
+    }
+    for(int i = 0; i < numThread; i++)
+        pthread_join(threadArr[i], NULL); // 等待子執行緒執行完成
 	/*~~~~~~~~~~~~~~~~~~END~~~~~~~~~~~~~~~~~~*/
 
     setEndTime();
