@@ -149,18 +149,22 @@ Thread::matrixMultiplication(void* args)
     // Set up the affinity mask
 	/*~~~~~~~~~~~~~~~~~~END~~~~~~~~~~~~~~~~~~*/
     /* matrix multiplication */
-std::cout << "test" << obj->_matrixSize << std::endl;
+
+std::cout << "test start " << obj->startCalculatePoint << std::endl;
+std::cout << "test end " << obj->endCalculatePoint << std::endl;
+std::cout << "test matrixSize " << obj->_matrixSize << std::endl;
+
 	for (int i = obj->startCalculatePoint; i < obj->endCalculatePoint; i++) {
 		for (int j = 0 ; j < obj->_matrixSize; j++) {
 			obj->multiResult[i][j] = 0;
 			for (int k = 0 ; k < obj->_matrixSize; k++) {
 				obj->multiResult[i][j] += obj->matrix[i][k] * obj->matrix[k][j];
             }	
-
 	        /*~~~~~~~~~~~~Your code(PART1)~~~~~~~~~~~*/
             // Observe the thread migration
 	        /*~~~~~~~~~~~~~~~~~~END~~~~~~~~~~~~~~~~~~*/
 
+			std::cout << "test " << obj->multiResult[i][j] << std::endl;
 		}
 #if (PART == 3)
 	    /*~~~~~~~~~~~~Your code(PART3)~~~~~~~~~~~*/
