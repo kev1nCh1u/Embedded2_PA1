@@ -176,12 +176,14 @@ Thread::matrixMultiplication(void* args)
             }	
 	        /*~~~~~~~~~~~~Your code(PART1)~~~~~~~~~~~*/
             // Observe the thread migration
+#if (PART == 1)
 			int newCore = sched_getcpu();
 			if(obj->core != newCore)
 			{
 				std::cout << "The thread " << obj->_ID << " PID " << obj->PID << " is moved from CPU " << obj->core << " to " << newCore << std::endl; 
 				obj->core = newCore;
 			}
+#endif
 	        /*~~~~~~~~~~~~~~~~~~END~~~~~~~~~~~~~~~~~~*/
 
 		}
