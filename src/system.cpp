@@ -354,16 +354,8 @@ System::partitionBestFit()
             // std::cout << "test " << cpuUsCal << std::endl;
             if( (cpuUsCal <= 1.) && (cpuUsCal > cpuUs) )
             {
-                // std::cout << "test core " << j << " \t thread " << i << " \tus " << threadSet[i].utilization() << std::endl;
                 cpuUs = cpuUsCal;
-                cpuNum = j;
-
-                
-            }
-            else if( (j == (CORE_NUM - 1)) && (cpuNum == -1) )
-            {
-                std::cout << "Thread-" << i << " not schedulable." << std::endl;
-                // cpuNum = CORE_NUM;
+                cpuNum = j; 
             }
         }
 
@@ -372,9 +364,12 @@ System::partitionBestFit()
             cpuSet[cpuNum].pushThreadToCPU(&threadSet[i]);
             threadSet[i].setThreadCore(cpuNum);
         }
+        else
+        {
+            std::cout << "Thread-" << i << " not schedulable." << std::endl;
+        }
 
     }
-    // std::cout << "test" << std::endl;
     for (int i = 0; i < CORE_NUM; i++)
 		cpuSet[i].printCPUInformation(); // Reset the CPU set
 	/*~~~~~~~~~~~~~~~~~~END~~~~~~~~~~~~~~~~~~*/
