@@ -156,17 +156,16 @@ Thread::matrixMultiplication(void* args)
 
 	/*~~~~~~~~~~~~Your code(PART1)~~~~~~~~~~~*/
     // Set up the affinity mask
-	// cpu_set_t cpuSet;
-    // CPU_ZERO(&cpuSet);
-    // CPU_SET(obj->setCore, &cpuSet);
-    // sched_setaffinity(0, sizeof(cpuSet), &cpuSet);
 	obj->setUpCPUAffinityMask(obj->setCore);
 	/*~~~~~~~~~~~~~~~~~~END~~~~~~~~~~~~~~~~~~*/
     /* matrix multiplication */
 
 	obj->core = sched_getcpu();
 	obj->PID = syscall(SYS_gettid);
+
+	pthread_mutex_lock( &count_Mutex );
 	obj->printInformation();
+	pthread_mutex_unlock( &count_Mutex );
 
 	for (int i = obj->startCalculatePoint; i < obj->endCalculatePoint; i++) {
 		for (int j = 0 ; j < obj->_matrixSize; j++) {

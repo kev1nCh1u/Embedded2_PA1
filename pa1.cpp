@@ -20,7 +20,7 @@ e.g.      ./part1.out ./input/part1_Input.txt
 int main(int argc, char** argv)
 {
     System sys( argv[1] );
-    // sys.singleCoreMatrixMulti(); // Single thread matrix multiplication
+    sys.singleCoreMatrixMulti(); // Single thread matrix multiplication
 
 
 #if (PART == 1)
@@ -30,8 +30,8 @@ int main(int argc, char** argv)
 #else
     /* Part2 and Part3 */
     sys.partitionFirstFit(); // Partition first-fit matrix multiplication
-    sys.partitionBestFit(); // Partititon best-fit matrix multiplication
-    sys.partitionWorstFit(); // Partition worst-fit matrix multiplication
+    // sys.partitionBestFit(); // Partititon best-fit matrix multiplication
+    // sys.partitionWorstFit(); // Partition worst-fit matrix multiplication
 #endif
 
     return 0;

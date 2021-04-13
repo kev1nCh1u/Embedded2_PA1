@@ -249,21 +249,13 @@ System::partitionMultiCoreMatrixMulti()
 	/*~~~~~~~~~~~~Your code(PART1)~~~~~~~~~~~*/
     // Set thread execute core.
     // Create thread and join.
+    for(int i = 0; i < numThread; i++)
+    {
 #if (PART == 1)
-    for(int i = 0; i < numThread; i++)
-    {
         threadSet[i].setThreadCore(i); // 設定 class core
+#endif
         pthread_create(&threadSet[i].pthreadThread, NULL, threadSet[i].matrixMultiplication, &threadSet[i]); // 建立子執行緒
     }
-#endif
-
-#if (PART == 2)
-    for(int i = 0; i < numThread; i++)
-    {
-        threadSet[i].setThreadCore(i); // 設定 class core
-        pthread_create(&threadSet[i].pthreadThread, NULL, threadSet[i].matrixMultiplication, &threadSet[i]); // 建立子執行緒
-    }
-#endif
 
     for(int i = 0; i < numThread; i++)
         pthread_join(threadSet[i].pthreadThread, NULL); // 等待子執行緒執行完成
@@ -306,17 +298,19 @@ System::partitionFirstFit()
             
             if(cpuSet[j].utilization() + threadSet[i].utilization() <= 1)
             {
-                std::cout << "test" << j << i << std::endl;
+                // std::cout << "test" << j << i << std::endl;
                 cpuSet[j].pushThreadToCPU(&threadSet[i]);
+                threadSet[i].setThreadCore(j);
                 break;
             }
             else if(j == (CORE_NUM - 1))
             {
                 std::cout << "Thread-" << i << " not schedulable." << std::endl;
+                threadSet[i].setThreadCore(0);
             }
         }
     }
-    std::cout << "test" << std::endl;
+    // std::cout << "test" << std::endl;
     for (int i = 0; i < CORE_NUM; i++)
 		cpuSet[i].printCPUInformation(); // Reset the CPU set
 	/*~~~~~~~~~~~~~~~~~~END~~~~~~~~~~~~~~~~~~*/
@@ -349,6 +343,28 @@ System::partitionBestFit()
 
 	/*~~~~~~~~~~~~Your code(PART2)~~~~~~~~~~~*/
     // Implement partition best-fit and print result.
+    for(int i = 0, j = 0; i < numThread; i++)
+    {
+        if(cpuSet[j].utilization() + threadSet[i].utilization() <= 1)
+        {
+            // std::cout << "test" << j << i << std::endl;
+            cpuSet[j].pushThreadToCPU(&threadSet[i]);
+            threadSet[i].setThreadCore(j);
+            break;
+        }
+        else if(j == (CORE_NUM - 1))
+        {
+            std::cout << "Thread-" << i << " not schedulable." << std::endl;
+            threadSet[i].setThreadCore(0);
+        }
+        else
+        {
+            j++;
+        }
+    }
+    // std::cout << "test" << std::endl;
+    for (int i = 0; i < CORE_NUM; i++)
+		cpuSet[i].printCPUInformation(); // Reset the CPU set
 	/*~~~~~~~~~~~~~~~~~~END~~~~~~~~~~~~~~~~~~*/
 
     partitionMultiCoreMatrixMulti(); // Create the multi-thread matrix multiplication
