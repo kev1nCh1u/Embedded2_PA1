@@ -20,12 +20,12 @@ e.g.      ./part1.out ./input/part1_Input.txt
 int main(int argc, char** argv)
 {
     System sys( argv[1] );
-    // sys.singleCoreMatrixMulti(); // Single thread matrix multiplication
+    sys.singleCoreMatrixMulti(); // Single thread matrix multiplication
 
 
 #if (PART == 1)
     /* Part1 */
-    // sys.globalMultiCoreMatrixMulti(); // Global multi-thread matrix multiplicaiton
+    sys.globalMultiCoreMatrixMulti(); // Global multi-thread matrix multiplicaiton
     sys.partitionMultiCoreMatrixMulti(); // Partition multi-thread matrix multiplication
 #else
     /* Part2 and Part3 */

@@ -144,10 +144,7 @@ Thread::matrixMultiplication(void* args)
 	// std::cout << "test start " << obj->startCalculatePoint << std::endl;
 	// std::cout << "test end " << obj->endCalculatePoint << std::endl;
 	// std::cout << "test matrixSize " << obj->_matrixSize << std::endl;
-
-	obj->core = sched_getcpu();
-	obj->PID = syscall(SYS_gettid);
-	obj->printInformation();
+	// std::cout << "test core " << obj->setCore << std::endl;
 
 #if (PART == 3)
     obj->setUpScheduler();
@@ -155,8 +152,16 @@ Thread::matrixMultiplication(void* args)
 
 	/*~~~~~~~~~~~~Your code(PART1)~~~~~~~~~~~*/
     // Set up the affinity mask
+	cpu_set_t cpuSet;
+    CPU_ZERO(&cpuSet);
+    CPU_SET(obj->setCore, &cpuSet);
+    sched_setaffinity(0, sizeof(cpuSet), &cpuSet);
 	/*~~~~~~~~~~~~~~~~~~END~~~~~~~~~~~~~~~~~~*/
     /* matrix multiplication */
+
+	obj->core = sched_getcpu();
+	obj->PID = syscall(SYS_gettid);
+	obj->printInformation();
 
 	for (int i = obj->startCalculatePoint; i < obj->endCalculatePoint; i++) {
 		for (int j = 0 ; j < obj->_matrixSize; j++) {
