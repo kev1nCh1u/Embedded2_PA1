@@ -402,6 +402,34 @@ System::partitionWorstFit()
 	
 	/*~~~~~~~~~~~~Your code(PART2)~~~~~~~~~~~*/
     // Implement partition worst-fit and print result.
+    for(int i = 0; i < numThread; i++)
+    {
+        float cpuUs = 1;
+        int cpuNum = -1;
+
+        for(int j = 0; j < CORE_NUM; j++)
+        {
+            float cpuUsCal = cpuSet[j].utilization() + threadSet[i].utilization();
+            if( (cpuUsCal <= 1.) && (cpuUsCal < cpuUs) )
+            {
+                cpuUs = cpuUsCal;
+                cpuNum = j; 
+            }
+        }
+
+        if( cpuNum != -1)
+        {
+            cpuSet[cpuNum].pushThreadToCPU(&threadSet[i]);
+            threadSet[i].setThreadCore(cpuNum);
+        }
+        else
+        {
+            std::cout << "Thread-" << i << " not schedulable." << std::endl;
+        }
+
+    }
+    for (int i = 0; i < CORE_NUM; i++)
+		cpuSet[i].printCPUInformation(); // Reset the CPU set
 	/*~~~~~~~~~~~~~~~~~~END~~~~~~~~~~~~~~~~~~*/
 
     partitionMultiCoreMatrixMulti(); // Create the multi-thread matrix multiplication
