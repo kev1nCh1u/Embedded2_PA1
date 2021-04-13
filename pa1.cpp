@@ -29,8 +29,8 @@ int main(int argc, char** argv)
     // sys.partitionMultiCoreMatrixMulti(); // Partition multi-thread matrix multiplication
 #else
     /* Part2 and Part3 */
-    sys.partitionFirstFit(); // Partition first-fit matrix multiplication
-    // sys.partitionBestFit(); // Partititon best-fit matrix multiplication
+    // sys.partitionFirstFit(); // Partition first-fit matrix multiplication
+    sys.partitionBestFit(); // Partititon best-fit matrix multiplication
     // sys.partitionWorstFit(); // Partition worst-fit matrix multiplication
 #endif
 

@@ -296,7 +296,7 @@ System::partitionFirstFit()
         for(int j = 0; j < CORE_NUM; j++)
         {
             
-            if(cpuSet[j].utilization() + threadSet[i].utilization() <= 1)
+            if(cpuSet[j].utilization() + threadSet[i].utilization() <= 1.)
             {
                 // std::cout << "test" << j << i << std::endl;
                 cpuSet[j].pushThreadToCPU(&threadSet[i]);
@@ -306,7 +306,7 @@ System::partitionFirstFit()
             else if(j == (CORE_NUM - 1))
             {
                 std::cout << "Thread-" << i << " not schedulable." << std::endl;
-                threadSet[i].setThreadCore(0);
+                // threadSet[i].setThreadCore(CORE_NUM);
             }
         }
     }
@@ -343,24 +343,36 @@ System::partitionBestFit()
 
 	/*~~~~~~~~~~~~Your code(PART2)~~~~~~~~~~~*/
     // Implement partition best-fit and print result.
-    for(int i = 0, j = 0; i < numThread; i++)
+    for(int i = 0; i < numThread; i++)
     {
-        if(cpuSet[j].utilization() + threadSet[i].utilization() <= 1)
+        float cpuMax = 0;
+        int cpuFlag = -1;
+
+        for(int j = 0; j < CORE_NUM; j++)
         {
-            // std::cout << "test" << j << i << std::endl;
-            cpuSet[j].pushThreadToCPU(&threadSet[i]);
-            threadSet[i].setThreadCore(j);
-            break;
+            float cpuUsCal = cpuSet[j].utilization() + threadSet[i].utilization();
+            // std::cout << "test " << cpuUsCal << std::endl;
+            if( (cpuUsCal <= 1.) && (cpuUsCal > cpuMax) )
+            {
+                // std::cout << "test core " << j << " \t thread " << i << " \tus " << threadSet[i].utilization() << std::endl;
+                cpuMax = cpuUsCal;
+                cpuFlag = j;
+
+                
+            }
+            else if( (j == (CORE_NUM - 1)) && (cpuFlag == -1) )
+            {
+                std::cout << "Thread-" << i << " not schedulable." << std::endl;
+                // cpuFlag = CORE_NUM;
+            }
         }
-        else if(j == (CORE_NUM - 1))
+
+        if( cpuFlag != -1)
         {
-            std::cout << "Thread-" << i << " not schedulable." << std::endl;
-            threadSet[i].setThreadCore(0);
+            cpuSet[cpuFlag].pushThreadToCPU(&threadSet[i]);
+            threadSet[i].setThreadCore(cpuFlag);
         }
-        else
-        {
-            j++;
-        }
+
     }
     // std::cout << "test" << std::endl;
     for (int i = 0; i < CORE_NUM; i++)
