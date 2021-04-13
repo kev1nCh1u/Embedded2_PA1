@@ -345,32 +345,32 @@ System::partitionBestFit()
     // Implement partition best-fit and print result.
     for(int i = 0; i < numThread; i++)
     {
-        float cpuMax = 0;
-        int cpuFlag = -1;
+        float cpuUs = 0;
+        int cpuNum = -1;
 
         for(int j = 0; j < CORE_NUM; j++)
         {
             float cpuUsCal = cpuSet[j].utilization() + threadSet[i].utilization();
             // std::cout << "test " << cpuUsCal << std::endl;
-            if( (cpuUsCal <= 1.) && (cpuUsCal > cpuMax) )
+            if( (cpuUsCal <= 1.) && (cpuUsCal > cpuUs) )
             {
                 // std::cout << "test core " << j << " \t thread " << i << " \tus " << threadSet[i].utilization() << std::endl;
-                cpuMax = cpuUsCal;
-                cpuFlag = j;
+                cpuUs = cpuUsCal;
+                cpuNum = j;
 
                 
             }
-            else if( (j == (CORE_NUM - 1)) && (cpuFlag == -1) )
+            else if( (j == (CORE_NUM - 1)) && (cpuNum == -1) )
             {
                 std::cout << "Thread-" << i << " not schedulable." << std::endl;
-                // cpuFlag = CORE_NUM;
+                // cpuNum = CORE_NUM;
             }
         }
 
-        if( cpuFlag != -1)
+        if( cpuNum != -1)
         {
-            cpuSet[cpuFlag].pushThreadToCPU(&threadSet[i]);
-            threadSet[i].setThreadCore(cpuFlag);
+            cpuSet[cpuNum].pushThreadToCPU(&threadSet[i]);
+            threadSet[i].setThreadCore(cpuNum);
         }
 
     }

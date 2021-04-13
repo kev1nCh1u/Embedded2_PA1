@@ -156,7 +156,8 @@ Thread::matrixMultiplication(void* args)
 
 	/*~~~~~~~~~~~~Your code(PART1)~~~~~~~~~~~*/
     // Set up the affinity mask
-	obj->setUpCPUAffinityMask(obj->setCore);
+	if(obj->setCore != -1)
+		obj->setUpCPUAffinityMask(obj->setCore);
 	/*~~~~~~~~~~~~~~~~~~END~~~~~~~~~~~~~~~~~~*/
     /* matrix multiplication */
 
