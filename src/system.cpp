@@ -249,11 +249,22 @@ System::partitionMultiCoreMatrixMulti()
 	/*~~~~~~~~~~~~Your code(PART1)~~~~~~~~~~~*/
     // Set thread execute core.
     // Create thread and join.
+#if (PART == 1)
     for(int i = 0; i < numThread; i++)
     {
         threadSet[i].setThreadCore(i); // 設定 class core
         pthread_create(&threadSet[i].pthreadThread, NULL, threadSet[i].matrixMultiplication, &threadSet[i]); // 建立子執行緒
     }
+#endif
+
+#if (PART == 2)
+    for(int i = 0; i < numThread; i++)
+    {
+        threadSet[i].setThreadCore(i); // 設定 class core
+        pthread_create(&threadSet[i].pthreadThread, NULL, threadSet[i].matrixMultiplication, &threadSet[i]); // 建立子執行緒
+    }
+#endif
+
     for(int i = 0; i < numThread; i++)
         pthread_join(threadSet[i].pthreadThread, NULL); // 等待子執行緒執行完成
 	/*~~~~~~~~~~~~~~~~~~END~~~~~~~~~~~~~~~~~~*/
@@ -288,6 +299,26 @@ System::partitionFirstFit()
 
 	/*~~~~~~~~~~~~Your code(PART2)~~~~~~~~~~~*/
     // Implement parititon first-fit and print result.
+    for(int i = 0; i < numThread; i++)
+    {
+        for(int j = 0; j < CORE_NUM; j++)
+        {
+            
+            if(cpuSet[j].utilization() + threadSet[i].utilization() <= 1)
+            {
+                std::cout << "test" << j << i << std::endl;
+                cpuSet[j].pushThreadToCPU(&threadSet[i]);
+                break;
+            }
+            else if(j == (CORE_NUM - 1))
+            {
+                std::cout << "Thread-" << i << " not schedulable." << std::endl;
+            }
+        }
+    }
+    std::cout << "test" << std::endl;
+    for (int i = 0; i < CORE_NUM; i++)
+		cpuSet[i].printCPUInformation(); // Reset the CPU set
 	/*~~~~~~~~~~~~~~~~~~END~~~~~~~~~~~~~~~~~~*/
 
     partitionMultiCoreMatrixMulti(); // Create the multi-thread matrix multiplication
