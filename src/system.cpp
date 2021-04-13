@@ -213,13 +213,12 @@ System::globalMultiCoreMatrixMulti()
 
 	/*~~~~~~~~~~~~Your code(PART1)~~~~~~~~~~~*/
     // Create thread and join
-    pthread_t threadArr[numThread]; // 宣告 pthread 變數
     for(int i = 0; i < numThread; i++)
     {
-        pthread_create(&threadArr[i], NULL, threadSet[i].matrixMultiplication, &threadSet[i]); // 建立子執行緒
+        pthread_create(&threadSet[i].pthreadThread, NULL, threadSet[i].matrixMultiplication, &threadSet[i]); // 建立子執行緒
     }
     for(int i = 0; i < numThread; i++)
-        pthread_join(threadArr[i], NULL); // 等待子執行緒執行完成
+        pthread_join(threadSet[i].pthreadThread, NULL); // 等待子執行緒執行完成
 	/*~~~~~~~~~~~~~~~~~~END~~~~~~~~~~~~~~~~~~*/
 
     setEndTime();
@@ -250,15 +249,13 @@ System::partitionMultiCoreMatrixMulti()
 	/*~~~~~~~~~~~~Your code(PART1)~~~~~~~~~~~*/
     // Set thread execute core.
     // Create thread and join.
-    pthread_t threadArr[numThread]; // 宣告 pthread 變數
-
     for(int i = 0; i < numThread; i++)
     {
         threadSet[i].setThreadCore(i); // 設定 class core
-        pthread_create(&threadArr[i], NULL, threadSet[i].matrixMultiplication, &threadSet[i]); // 建立子執行緒
+        pthread_create(&threadSet[i].pthreadThread, NULL, threadSet[i].matrixMultiplication, &threadSet[i]); // 建立子執行緒
     }
     for(int i = 0; i < numThread; i++)
-        pthread_join(threadArr[i], NULL); // 等待子執行緒執行完成
+        pthread_join(threadSet[i].pthreadThread, NULL); // 等待子執行緒執行完成
 	/*~~~~~~~~~~~~~~~~~~END~~~~~~~~~~~~~~~~~~*/
 
     setEndTime();

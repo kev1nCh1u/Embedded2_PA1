@@ -34,6 +34,10 @@ Thread::setUpCPUAffinityMask(int cpu_num)
 {
 	/*~~~~~~~~~~~~Your code(PART1)~~~~~~~~~~~*/
     // Pined the thread to core.
+	cpu_set_t cpuSet;
+    CPU_ZERO(&cpuSet);
+    CPU_SET(cpu_num, &cpuSet);
+    sched_setaffinity(0, sizeof(cpuSet), &cpuSet);
 	/*~~~~~~~~~~~~~~~~~~END~~~~~~~~~~~~~~~~~~*/
 }
 
@@ -152,10 +156,11 @@ Thread::matrixMultiplication(void* args)
 
 	/*~~~~~~~~~~~~Your code(PART1)~~~~~~~~~~~*/
     // Set up the affinity mask
-	cpu_set_t cpuSet;
-    CPU_ZERO(&cpuSet);
-    CPU_SET(obj->setCore, &cpuSet);
-    sched_setaffinity(0, sizeof(cpuSet), &cpuSet);
+	// cpu_set_t cpuSet;
+    // CPU_ZERO(&cpuSet);
+    // CPU_SET(obj->setCore, &cpuSet);
+    // sched_setaffinity(0, sizeof(cpuSet), &cpuSet);
+	obj->setUpCPUAffinityMask(obj->setCore);
 	/*~~~~~~~~~~~~~~~~~~END~~~~~~~~~~~~~~~~~~*/
     /* matrix multiplication */
 
