@@ -35,6 +35,7 @@ System::System(char* input_file)
 #if (PART == 3)
 	    /*~~~~~~~~~~~~Your code(PART3)~~~~~~~~~~~*/
         // Set the scheduling policy for thread.
+        threadSet[i].setSchedulingPolicy(SCHEDULING);
 	    /*~~~~~~~~~~~~~~~~~~END~~~~~~~~~~~~~~~~~~*/
 #endif
 

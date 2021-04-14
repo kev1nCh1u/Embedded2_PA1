@@ -164,9 +164,9 @@ Thread::matrixMultiplication(void* args)
 	obj->core = sched_getcpu();
 	obj->PID = syscall(SYS_gettid);
 
-	pthread_mutex_lock( &count_Mutex );
+	// pthread_mutex_lock( &count_Mutex );
 	obj->printInformation();
-	pthread_mutex_unlock( &count_Mutex );
+	// pthread_mutex_unlock( &count_Mutex );
 
 	for (int i = obj->startCalculatePoint; i < obj->endCalculatePoint; i++) {
 		for (int j = 0 ; j < obj->_matrixSize; j++) {
@@ -190,6 +190,7 @@ Thread::matrixMultiplication(void* args)
 #if (PART == 3)
 	    /*~~~~~~~~~~~~Your code(PART3)~~~~~~~~~~~*/
         // Obaserve the execute thread on core-0
+		std::cout << "Core " << obj->core << " context switch from PID-" << obj->PID << " to PID-" << 0 << std::endl;
 	    /*~~~~~~~~~~~~~~~~~~END~~~~~~~~~~~~~~~~~~*/
 #endif
 	}
@@ -208,6 +209,8 @@ Thread::matrixMultiplication(void* args)
 void
 Thread::printInformation()
 {
+#if (PART != 3)
+	pthread_mutex_lock( &count_Mutex );
     std::cout << "Thread ID : " << _ID ;
     std::cout << "\tPID : " << PID;
     std::cout << "\tCore : " << core;
@@ -216,6 +219,8 @@ Thread::printInformation()
     std::cout << "\tMatrixSize : " << _matrixSize;	
 #endif
     std::cout << std::endl;
+	pthread_mutex_unlock( &count_Mutex );
+#endif
 }
 
 
@@ -232,5 +237,9 @@ Thread::setUpScheduler()
 {
 	/*~~~~~~~~~~~~Your code(PART3)~~~~~~~~~~~*/
     // Set up the scheduler for current thread
+	// std::cout << "test" << schedulingPolicy() << std::endl;
+	struct sched_param sp;
+	sp.sched_priority = sched_get_priority_max(schedulingPolicy());
+	sched_setscheduler(0, schedulingPolicy(), &sp);
 	/*~~~~~~~~~~~~~~~~~~END~~~~~~~~~~~~~~~~~~*/
 }
