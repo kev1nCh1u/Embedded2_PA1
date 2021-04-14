@@ -25,13 +25,13 @@ int main(int argc, char** argv)
 
 #if (PART == 1)
     /* Part1 */
-    // sys.globalMultiCoreMatrixMulti(); // Global multi-thread matrix multiplicaiton
-    // sys.partitionMultiCoreMatrixMulti(); // Partition multi-thread matrix multiplication
+    sys.globalMultiCoreMatrixMulti(); // Global multi-thread matrix multiplicaiton
+    sys.partitionMultiCoreMatrixMulti(); // Partition multi-thread matrix multiplication
 #else
     /* Part2 and Part3 */
-    // sys.partitionFirstFit(); // Partition first-fit matrix multiplication
+    sys.partitionFirstFit(); // Partition first-fit matrix multiplication
     sys.partitionBestFit(); // Partititon best-fit matrix multiplication
-    // sys.partitionWorstFit(); // Partition worst-fit matrix multiplication
+    sys.partitionWorstFit(); // Partition worst-fit matrix multiplication
 #endif
 
     return 0;
