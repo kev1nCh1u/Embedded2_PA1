@@ -5,7 +5,7 @@
 #define PART 3
 
 /* The scheduler include SCHED_FIFO and SCHED_RR */
-#define SCHEDULING SCHED_RR
+#define SCHEDULING SCHED_FIFO
 
 /* Constant hyperparameter */
 #define CORE_NUM 4

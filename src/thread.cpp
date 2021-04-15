@@ -167,7 +167,7 @@ Thread::matrixMultiplication(void* args)
 	// pthread_mutex_lock( &count_Mutex );
 	obj->printInformation();
 	// pthread_mutex_unlock( &count_Mutex );
-	if(obj->core == 0 && obj->PID == -1)
+	if(obj->core == 0 && current_PID == -1)
 	{
 		std::cout << "Core " << obj->core << " start PID-" << obj->PID << std::endl;
 		current_PID = obj->PID;
@@ -206,6 +206,7 @@ Thread::matrixMultiplication(void* args)
 
 	pthread_mutex_lock( &count_Mutex );
     obj->check->checkCorrectness();
+	std::cout << "test " <<std::endl;
 	pthread_mutex_unlock( &count_Mutex );
     return 0;
 }
