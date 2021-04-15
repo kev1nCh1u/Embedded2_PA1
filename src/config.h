@@ -2,10 +2,10 @@
 #define _CONFIG_H_
 #include <sched.h>
 
-#define PART 3
+#define PART 2
 
 /* The scheduler include SCHED_FIFO and SCHED_RR */
-#define SCHEDULING SCHED_FIFO
+#define SCHEDULING SCHED_RR
 
 /* Constant hyperparameter */
 #define CORE_NUM 4
