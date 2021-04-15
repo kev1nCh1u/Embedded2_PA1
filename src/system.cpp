@@ -250,6 +250,7 @@ System::partitionMultiCoreMatrixMulti()
 	/*~~~~~~~~~~~~Your code(PART1)~~~~~~~~~~~*/
     // Set thread execute core.
     // Create thread and join.
+    threadSet[0].resetCurrentPID();
     for(int i = 0; i < numThread; i++)
     {
 #if (PART == 1)

@@ -49,6 +49,9 @@ class Thread
     int ID () {return _ID;};
     int schedulingPolicy () {return _schedulingPolicy;};
 
+    /* kevin */
+    void resetCurrentPID();
+
   public:
     pthread_t pthreadThread;
 

@@ -206,7 +206,6 @@ Thread::matrixMultiplication(void* args)
 
 	pthread_mutex_lock( &count_Mutex );
     obj->check->checkCorrectness();
-	std::cout << "test " <<std::endl;
 	pthread_mutex_unlock( &count_Mutex );
     return 0;
 }
@@ -252,4 +251,11 @@ Thread::setUpScheduler()
 	sp.sched_priority = sched_get_priority_max(schedulingPolicy());
 	sched_setscheduler(0, schedulingPolicy(), &sp);
 	/*~~~~~~~~~~~~~~~~~~END~~~~~~~~~~~~~~~~~~*/
+}
+
+
+/* kevin */
+void Thread::resetCurrentPID()
+{
+	current_PID = -1;
 }
