@@ -167,11 +167,13 @@ Thread::matrixMultiplication(void* args)
 	// pthread_mutex_lock( &count_Mutex );
 	obj->printInformation();
 	// pthread_mutex_unlock( &count_Mutex );
+#if (PART == 3)
 	if(obj->core == 0 && current_PID == -1)
 	{
 		std::cout << "Core " << obj->core << " start PID-" << obj->PID << std::endl;
 		current_PID = obj->PID;
 	}
+#endif
 
 	for (int i = obj->startCalculatePoint; i < obj->endCalculatePoint; i++) {
 		for (int j = 0 ; j < obj->_matrixSize; j++) {
