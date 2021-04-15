@@ -167,6 +167,8 @@ Thread::matrixMultiplication(void* args)
 	// pthread_mutex_lock( &count_Mutex );
 	obj->printInformation();
 	// pthread_mutex_unlock( &count_Mutex );
+	if(obj->core == 0)
+		std::cout << "Core " << obj->core << " start PID-" << obj->PID << std::endl;
 
 	for (int i = obj->startCalculatePoint; i < obj->endCalculatePoint; i++) {
 		for (int j = 0 ; j < obj->_matrixSize; j++) {
@@ -190,7 +192,11 @@ Thread::matrixMultiplication(void* args)
 #if (PART == 3)
 	    /*~~~~~~~~~~~~Your code(PART3)~~~~~~~~~~~*/
         // Obaserve the execute thread on core-0
-		std::cout << "Core " << obj->core << " context switch from PID-" << obj->PID << " to PID-" << 0 << std::endl;
+		if(obj->core == 0 && obj->PID != current_PID)
+		{
+			std::cout << "Core " << obj->core << " context switch from PID-" << current_PID << " to PID-" << obj->PID << std::endl;
+			current_PID = obj->PID;
+		}
 	    /*~~~~~~~~~~~~~~~~~~END~~~~~~~~~~~~~~~~~~*/
 #endif
 	}
